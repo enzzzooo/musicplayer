@@ -2,6 +2,8 @@ const musicContainer = document.querySelector(".music-container");
 const playBtn = document.querySelector("#play");
 const prevBtn = document.querySelector("#prev");
 const nextBtn = document.querySelector("#next");
+const volume = document.querySelector("#volume i");
+const volInput = document.getElementById("vol-input");
 const audio = document.querySelector("#audio");
 const progress = document.querySelector(".progress");
 const progressContainer = document.querySelector(".progress-container");
@@ -77,12 +79,6 @@ function setProgress(e) {
 
   audio.currentTime = (clickX / width) * duration;
 }
-function setVolume(vol) {
-  var player = document.getElementsByClassName("volume");
-  console.log("Before: " + player.volume);
-  player.volume = vol / 100;
-  console.log("After: " + player.volume);
-}
 // Event listeners
 
 playBtn.addEventListener("click", () => {
@@ -102,6 +98,9 @@ nextBtn.addEventListener("click", nextSong);
 audio.addEventListener("timeupdate", updateProgress);
 progressContainer.addEventListener("click", setProgress);
 
-volumeContainer.addEventListener("click", setVolume);
+volInput.addEventListener("input", () => {
+  audio.volume = volInput.value / 100;
+  updateVolume();
+});
 
 audio.addEventListener("ended", nextSong);
