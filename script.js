@@ -77,7 +77,12 @@ function setProgress(e) {
 
   audio.currentTime = (clickX / width) * duration;
 }
-
+function setVolume(vol) {
+  var player = document.getElementsByClassName("volume");
+  console.log("Before: " + player.volume);
+  player.volume = vol / 100;
+  console.log("After: " + player.volume);
+}
 // Event listeners
 
 playBtn.addEventListener("click", () => {
@@ -95,7 +100,8 @@ prevBtn.addEventListener("click", prevSong);
 nextBtn.addEventListener("click", nextSong);
 
 audio.addEventListener("timeupdate", updateProgress);
-
 progressContainer.addEventListener("click", setProgress);
+
+volumeContainer.addEventListener("click", setVolume);
 
 audio.addEventListener("ended", nextSong);
