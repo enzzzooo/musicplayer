@@ -31,6 +31,7 @@ function loadSong(song) {
   audio.src = `music/${song}.mp3`;
   cover.src = `images/${song}.jpg`;
 }
+
 function playSong() {
   musicContainer.classList.add("play");
   playBtn.querySelector("i.fas").classList.remove("fa-play");
@@ -45,7 +46,6 @@ function pauseSong() {
 
   audio.pause();
 }
-
 function prevSong() {
   songIndex--;
   if (songIndex < 0) {
@@ -56,7 +56,6 @@ function prevSong() {
 
   playSong();
 }
-
 function nextSong() {
   songIndex++;
   if (songIndex > songs.length - 1) {
@@ -67,6 +66,7 @@ function nextSong() {
 
   playSong();
 }
+
 function updateProgress(e) {
   const { duration, currentTime } = e.srcElement;
   const progressPercent = (currentTime / duration) * 100;
@@ -79,16 +79,17 @@ function setProgress(e) {
 
   audio.currentTime = (clickX / width) * duration;
 }
-function updateVolume(e) {
-  const { volumeDur, currentVolume } = e.srcElement;
-  const volumeProgressPercent = currentVolume / 100;
-  progress.style.height = `${volumePercent}%`;
-}
+// fix my volume button it does not work at all it seems. I want on click the top part to be 1 and the bottom 0 so no volume. please code this in js and use the html elemtns volume-container and volume which is inside volume-container
+// volume is the same as progress but it doesn't update on its own
 function setVolume(e) {
   const height = this.clientHeight;
   const clickY = e.offsetY;
-  const volumeDur = audio.volume;
-  audio.volume = volumeContainer.value / 100;
+  const volumeHeight = 1 - clickY / height
+  // updates noise
+  audio.volume = volumeHeight;
+  console.log(audio.volume);
+  // updates ui
+  volume.style.height = `${volumeHeight}`
 }
 // Event listeners
 
@@ -108,6 +109,7 @@ nextBtn.addEventListener("click", nextSong);
 
 audio.addEventListener("timeupdate", updateProgress);
 progressContainer.addEventListener("click", setProgress);
-volumeContainer.addEventListener("click", setVolumeProgress);
+
+volumeContainer.addEventListener("click", setVolume);
 
 audio.addEventListener("ended", nextSong);
