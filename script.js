@@ -114,7 +114,33 @@ playBtn.addEventListener("click", () => {
     playSong();
   }
 });
+// Add event listener for spacebar to toggle play/pause
+document.addEventListener("keydown", (e) => {
+  if (e.code === "Space") {
+    e.preventDefault(); // Prevent the default action (scrolling)
+    const isPlaying = musicContainer.classList.contains("play");
 
+    if (isPlaying) {
+      pauseSong();
+    } else {
+      playSong();
+    }
+  } else if (e.code === "ArrowUp") {
+    e.preventDefault(); // don't scroll
+    audio.volume = Math.min(audio.volume + 0.1, 1); // Ensure volume doesn't exceed 1
+    updateVolumeUI(audio.volume);
+  } else if (e.code === "ArrowDown") {
+    e.preventDefault(); // don't scroll
+    audio.volume = Math.max(audio.volume - 0.1, 0); // Ensure volume doesn't go below 0
+    updateVolumeUI(audio.volume);
+  }
+});
+// Change song events
+function updateVolumeUI(volume) {
+  const volumePercent = volume * 100;
+  volume.style.height = `${volumePercent}%`;
+  volume.style.bottom = 0;
+}
 prevBtn.addEventListener("click", prevSong);
 nextBtn.addEventListener("click", nextSong);
 
