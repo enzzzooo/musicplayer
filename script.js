@@ -17,6 +17,9 @@ const songs = [
   "Pure Cocaine",
   "Industry Baby",
   "Sum 2 Prove",
+  "Crazy",
+  "Bad Man",
+  "Skrillex Dj Mix",
 ];
 
 // Keep track of songs
@@ -84,12 +87,14 @@ function setProgress(e) {
 function setVolume(e) {
   const height = this.clientHeight;
   const clickY = e.offsetY;
-  const volumeHeight = 1 - clickY / height
+  const newVolume = (clickY / height) * 1;
   // updates noise
-  audio.volume = volumeHeight;
+  audio.volume = newVolume;
   console.log(audio.volume);
   // updates ui
-  volume.style.height = `${volumeHeight}`
+  const volumePercent = newVolume * 100;
+  volume.style.height = `${volumePercent}%`;
+  volume.style.bottom = 0; // Ensure the volume bar grows from the bottom
 }
 // Event listeners
 
@@ -102,6 +107,20 @@ playBtn.addEventListener("click", () => {
     playSong();
   }
 });
+// Add event listener for spacebar to toggle play/pause
+document.addEventListener("keydown", (e) => {
+  if (e.code === "Space") {
+    e.preventDefault(); // Prevent the default action (scrolling)
+    const isPlaying = musicContainer.classList.contains("play");
+
+    if (isPlaying) {
+      pauseSong();
+    } else {
+      playSong();
+    }
+  }
+});
+
 // Change song events
 
 prevBtn.addEventListener("click", prevSong);
